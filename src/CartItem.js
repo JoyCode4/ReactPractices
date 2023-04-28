@@ -2,16 +2,6 @@ import React from "react";
 import { FaPlusCircle,FaMinusCircle,FaTrashAlt } from "react-icons/fa";
 
 class CartItem extends React.Component{
-    constructor(){
-        super();
-        this.state = {
-            prices:999,
-            title:"Mobile Phone",
-            qty:1,
-            img:""
-        }
-    }
-
     increaseQuantity= async ()=>{
         // setState form 1
         // this.setState({
@@ -45,7 +35,7 @@ class CartItem extends React.Component{
     }
 
     render(){
-        const {prices,title, qty} = this.state;
+        const {prices,title, qty} = this.props.data;
         return(
             <div className="cart-item">
                 <div className="left-block">
