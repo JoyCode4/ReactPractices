@@ -1,5 +1,4 @@
 import React from "react";
-import CartItem from "./CartItem.js";
 import Cart from "./Cart.js";
 import Navbar from "./Navbar.js";
 // import Events from "./Events.js";
@@ -85,7 +84,7 @@ class App extends React.Component {
     for(let i of products){
       total+=(i.qty*i.prices)
     }
-
+    
     return total;
   }
 
