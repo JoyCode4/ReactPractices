@@ -2,7 +2,7 @@ import React from "react";
 import { FaPlusCircle,FaMinusCircle,FaTrashAlt } from "react-icons/fa";
 
 const CartItem=(props)=>{
-    const {prices,title, qty} = props.data;
+    const {price,title, qty} = props.data;
     const {data,
         onDecrease,
         onIncrease,
@@ -10,11 +10,11 @@ const CartItem=(props)=>{
     return(
         <div className="cart-item">
             <div className="left-block">
-                <img style={styles.image} src={data.img} />
+                <img alt="img" style={styles.image} src={data.img} />
             </div>
             <div className="right-block">
                 <div style={{fontSize:25}}>{title}</div>
-                <div style={{color:"grey"}}> Rs : {prices} </div>
+                <div style={{color:"grey"}}> Rs : {price} </div>
                 <div style={{color:"grey"}}> Qyt : {qty} </div>
                 <div className="cart-item-actions">
                     {/* Buttons */}

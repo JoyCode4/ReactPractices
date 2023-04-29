@@ -1,37 +1,37 @@
 import React from "react";
 import Cart from "./Cart.js";
 import Navbar from "./Navbar.js";
+import {db} from "./index.js";
+import {collection,getDocs} from "firebase/firestore";
+
 // import Events from "./Events.js";
+
 
 class App extends React.Component {
 
   constructor(){
       super();
       this.state = {
-          products:[
-              {
-                  prices:100,
-                  title:"Watch",
-                  qty:10,
-                  img:"https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
-                  id:1
-              },
-              {
-                  prices:500,
-                  title:"Mobile Phone",
-                  qty:4,
-                  img:"https://images.unsplash.com/photo-1585060544812-6b45742d762f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1181&q=80",
-                  id:2
-              },
-              {
-                  prices:10000,
-                  title:"Laptop",
-                  qty:2,
-                  img:"https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1120&q=80",
-                  id:3
-              }
-          ]
+          products:[],
+          loading:true
       }
+  }
+
+  componentDidMount(){
+    const colRef = collection(db,"products");
+    getDocs(colRef).then((snapshot)=>{
+      const products = snapshot.docs.map((doc)=>{
+        const data = doc.data();
+
+        data["id"] = doc.id;
+        return data;
+      })
+
+      this.setState({
+        products:products,
+        loading:false
+      });
+    })
   }
 
   handleIncreaseQuantity=(product)=>{
@@ -79,17 +79,17 @@ class App extends React.Component {
   }
 
   getCartTotal=()=>{
-    const {products}=this.state;
+    const {products}= this.state;
     let total=0;
     for(let i of products){
-      total+=(i.qty*i.prices)
+      total+=(i.qty*i.price)
     }
     
     return total;
   }
 
   render(){
-    const {products} = this.state; 
+    const {products,loading} = this.state; 
     return (
       <div className="App">
         <Navbar 
@@ -101,6 +101,7 @@ class App extends React.Component {
           onDecrease={this.handleDecreaseQuantity} 
           onDelete={this.handleDelete}
         />
+        {loading && <h1>Loading Products...</h1>}
         <div>TOTAL : {this.getCartTotal()}</div>
         {/* < Events /> */}
       </div>
