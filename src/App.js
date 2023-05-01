@@ -2,7 +2,6 @@ import React from "react";
 import Cart from "./Cart.js";
 import Navbar from "./Navbar.js";
 import {db} from "./index.js";
-import {collection,getDocs} from "firebase/firestore";
 
 // import Events from "./Events.js";
 
@@ -18,11 +17,32 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    const colRef = collection(db,"products");
-    getDocs(colRef).then((snapshot)=>{
+    // const colRef = collection(db,"products");
+
+    // onSnapshot(doc(db,"products"),(doc)=>{
+    //   console.log(doc.data());
+    // })
+
+    // getDocs(colRef).then((snapshot)=>{
+      // const products = snapshot.docs.map((doc)=>{
+      //   const data = doc.data();
+
+      //   data["id"] = doc.id;
+      //   return data;
+      // })
+
+      // this.setState({
+      //   products:products,
+      //   loading:false
+      // });
+    // })
+
+    db.collection("products")
+    .get()
+    .then((snapshot)=>{
       const products = snapshot.docs.map((doc)=>{
         const data = doc.data();
-
+        
         data["id"] = doc.id;
         return data;
       })
@@ -30,7 +50,9 @@ class App extends React.Component {
       this.setState({
         products:products,
         loading:false
-      });
+      })
+
+
     })
   }
 
