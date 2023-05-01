@@ -51,8 +51,6 @@ class App extends React.Component {
         products:products,
         loading:false
       })
-
-
     })
   }
 
