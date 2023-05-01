@@ -17,29 +17,28 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    // const colRef = collection(db,"products");
-
-    // onSnapshot(doc(db,"products"),(doc)=>{
-    //   console.log(doc.data());
-    // })
-
-    // getDocs(colRef).then((snapshot)=>{
-      // const products = snapshot.docs.map((doc)=>{
-      //   const data = doc.data();
-
-      //   data["id"] = doc.id;
-      //   return data;
-      // })
-
-      // this.setState({
-      //   products:products,
-      //   loading:false
-      // });
-    // })
-
+    /*
+    // It is for normal fetching of database
     db.collection("products")
     .get()
     .then((snapshot)=>{
+      const products = snapshot.docs.map((doc)=>{
+        const data = doc.data();
+        
+        data["id"] = doc.id;
+        return data;
+      })
+
+      this.setState({
+        products:products,
+        loading:false
+      })
+    })
+    */
+
+    // It is realtime update fetching of data
+    db.collection("products")
+    .onSnapshot((snapshot)=>{
       const products = snapshot.docs.map((doc)=>{
         const data = doc.data();
         
