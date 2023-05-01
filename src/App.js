@@ -107,6 +107,23 @@ class App extends React.Component {
     return total;
   }
 
+  addProduct=()=>{
+    db.collection("products")
+    .add({
+      img:"https://images.unsplash.com/photo-1626806819282-2c1dc01a5e0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d2FzaGluZyUyMG1hY2hpbmV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+      price:29999,
+      title:"Washing Machine",
+      qty:4
+    })
+    .then((docRef)=>{
+      console.log("Product has been added\n",docRef);
+    })
+    .catch((err)=>{
+      console.log("Error : "+err);
+    })
+
+  }
+
   render(){
     const {products,loading} = this.state; 
     return (
@@ -114,6 +131,7 @@ class App extends React.Component {
         <Navbar 
           count={this.getCartCount()}
         />
+        <button onClick={this.addProduct}>Add Product</button>
         <Cart
           products={products}
           onIncrease={this.handleIncreaseQuantity} 
