@@ -58,10 +58,26 @@ class App extends React.Component {
       const {products}=this.state;
       const index = products.indexOf(product);
 
-      products[index].qty+=1;
-      this.setState({
-          products:products
+      // products[index].qty+=1;
+      // this.setState({
+      //     products:products
+      // })
+
+      // 
+      const docRef = db.collection("products")
+      .doc(products[index].id);
+
+      docRef.update({
+        qty:products[index].qty+1
       })
+      .then(()=>{
+        console.log("Update Successfully");
+      })
+      .catch((err)=>{
+        console.log("Error : "+err);
+      })
+
+
 
   }
 
@@ -69,21 +85,44 @@ class App extends React.Component {
       // console.log("Decrease\n",product);
       const {products}=this.state;
       const index=products.indexOf(product);
-      if(products[index].qty>0){
-        products[index].qty -=1;
-      }
-      this.setState({
-        products:products
+      // if(products[index].qty>0){
+      //   products[index].qty -=1;
+      // }
+      // this.setState({
+      //   products:products
+      // })
+
+      const docRef = db.collection("products").doc(products[index].id);
+
+      docRef.update({
+        qty:products[index].qty-1
+      })
+      .then(()=>{
+        console.log("Update Successfully");
+      })
+      .catch((err)=>{
+        console.log("Error : "+err);
       })
   }
 
   handleDelete=(id)=>{
-      const {products}=this.state;
-      const items = products.filter((item)=>item.id!==id);
+      // const {products}=this.state;
+      // const items = products.filter((item)=>item.id!==id);
 
-      this.setState({
-          products:items
+      // this.setState({
+      //     products:items
+      // })
+
+      const docRef =db.collection("products").doc(id);
+
+      docRef.delete()
+      .then(()=>{
+        console.log("Deleted Successfully");
       })
+      .catch((err)=>{
+        console.log("Error : "+err);
+      })
+      
   }
 
   getCartCount=()=>{
@@ -131,7 +170,7 @@ class App extends React.Component {
         <Navbar 
           count={this.getCartCount()}
         />
-        <button onClick={this.addProduct}>Add Product</button>
+        {/* <button onClick={this.addProduct}>Add Product</button> */}
         <Cart
           products={products}
           onIncrease={this.handleIncreaseQuantity} 
